@@ -85,13 +85,16 @@ fun curryLike() {
 
     val a = arrayOf(1, 2, 3)
     val b = arrayOf(2, 3, 4)
-    a.corresponds(b) { x, y -> x + 1 == y } // true
-    a.corresponds(b) { x, y -> x + 2 == y } // false
+    val c = arrayOf(2.0,3.0,4.0)
+    println(a.corresponds(b) { x, y -> x + 1 == y } )// true
+    println(a.corresponds(b) { x, y -> x + 2 == y } )// false
+    println(a.corresponds(c) { x, y -> x + 1 == y.toInt() } )
 }
 
 fun main(args: Array<String>) {
     countryFilterTest()
     funInvoke()
     selfRunLambda()
+    curryLike()
 }
 

@@ -9,11 +9,13 @@ open class PlateA<T>(val t: T, val clazz: Class<T>) {
     }
 }
 
-open class GenericsToken<T> {
+open class GenericsToken<T,T2> {
     var type: Type = Any::class.java
+    var type2: Type = Any::class.java
     init {
         val superClass = this.javaClass.genericSuperclass
-        type = (superClass as ParameterizedType).getActualTypeArguments()[0]
+        type = (superClass as ParameterizedType).actualTypeArguments[0]
+        type2 =  superClass .actualTypeArguments[1]
     }
 }
 
@@ -34,7 +36,7 @@ fun main(args: Array<String>) {
     println(list1.javaClass.genericSuperclass)
     println(list2.javaClass.genericSuperclass)
 
-    val gt = object : GenericsToken<Map<String, String>>() {}
+    val gt = object : GenericsToken<Map<String, String>,Any?>() {}
     println(gt.type)
-
+    println(gt.type2)
 }
