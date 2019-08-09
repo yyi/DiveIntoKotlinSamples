@@ -33,10 +33,10 @@ fun testAlso() {
         val student: Stu? = getStu()
         var age = 0
         fun dealStu() {
-            val result = student?.also { stu ->
-                this.age += stu.age
-                println(this.age) // 21
-                println(stu.age) // 21
+            val result = student?.also {
+                this.age += it.age
+                println(it.age) // 21
+                println(it.age) // 21
                 this.age
             }
             println(result)

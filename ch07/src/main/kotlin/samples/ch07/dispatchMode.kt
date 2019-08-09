@@ -19,7 +19,7 @@ open class X {
         println("I’m Extended.foo in X")
     }
 
-    fun deal(base: Base) {
+   open fun deal(base: Base) {
         base.foo()
     }
 }
@@ -31,6 +31,11 @@ class Y : X() {
 
     override fun Extended.foo() {
         println("I’m Extended.foo in Y")
+    }
+
+     fun deal(extended: Extended) {
+         extended.foo()
+
     }
 
 }
