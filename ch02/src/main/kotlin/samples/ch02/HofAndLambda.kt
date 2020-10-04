@@ -8,11 +8,11 @@ data class Country(
 class CountryApp {
     fun filterCountries(
             countries: List<Country>,
-            test: (Country) -> Boolean): List<Country> // 增加了一个函数类型的参数test
+            test: Country.() -> Boolean): List<Country> // 增加了一个函数类型的参数test
     {
         val res = mutableListOf<Country>()
         for (c in countries) {
-            if (test(c)) { // 直接调用test来进行筛选
+            if (c.test()) { // 直接调用test来进行筛选
                 res.add(c)
             }
         }
@@ -30,15 +30,20 @@ class CountryTest {
 fun countryFilterTest() {
     val countryApp = CountryApp()
     val countryTest = CountryTest()
-    val countries = listOf(Country("China", "Asia", 1300000000))
+    val countries = listOf(Country("China", "Asia", 1300000000),Country("France", "EU", 130000000))
 
     countryApp.filterCountries(countries, countryTest::isBigEuropeanCountry)
-    countryApp.filterCountries(countries, fun(country: Country): Boolean {
+    var filterCountries = countryApp.filterCountries(countries, fun(country: Country): Boolean {
         return country.continent == "EU" && country.population > 10000
     })
-    countryApp.filterCountries(countries) { country ->
-        country.continent == "EU" && country.population > 10000
+
+    var filterCountries2 =   countryApp.filterCountries(countries) {
+        this.continent == "EU" && this.population > 10000
     }
+
+    val test: Country.() -> Boolean = { this.continent == "EU" && this.population > 10000 }
+    var filterCountries3 = countryApp.filterCountries(countries,test)
+    println("${filterCountries.size}  ${filterCountries2.size} ${filterCountries3.size}")
 }
 
 fun lambdaDef() {
@@ -85,10 +90,10 @@ fun curryLike() {
 
     val a = arrayOf(1, 2, 3)
     val b = arrayOf(2, 3, 4)
-    val c = arrayOf(2.0,3.0,4.0)
-    println(a.corresponds(b) { x, y -> x + 1 == y } )// true
-    println(a.corresponds(b) { x, y -> x + 2 == y } )// false
-    println(a.corresponds(c) { x, y -> x + 1 == y.toInt() } )
+    val c = arrayOf(2.0, 3.0, 4.0)
+    println(a.corresponds(b) { x, y -> x + 1 == y })// true
+    println(a.corresponds(b) { x, y -> x + 2 == y })// false
+    println(a.corresponds(c) { x, y -> x + 1 == y.toInt() })
 }
 
 fun main(args: Array<String>) {
